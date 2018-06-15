@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, ActivityIndicator, Text } from 'react-native';
 import { auth, database } from '../firebase';
+import commonStyles from '../common-styles';
 
 export default class Loading extends React.Component {
   constructor(props) {
@@ -23,19 +24,10 @@ export default class Loading extends React.Component {
   }
   render() {
     return (
-      <View style={styles.container}>
+      <View style={commonStyles.container}>
         <Text>Instaclone</Text>
         <ActivityIndicator size="large" />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});

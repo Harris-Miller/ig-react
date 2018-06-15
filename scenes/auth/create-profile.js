@@ -1,6 +1,7 @@
 import React from 'react';
 import { Alert, StyleSheet, Text, KeyboardAvoidingView, TextInput, Button } from 'react-native';
 import { auth, database } from '../../firebase';
+import commonStyles from '../../common-styles';
 
 export default class CreateProfile extends React.Component {
   static navigationOptions = {
@@ -44,10 +45,10 @@ export default class CreateProfile extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAvoidingView style={commonStyles.container}>
         <Text>Create Profile</Text>
         <TextInput
-          style={styles.text}
+          style={commonStyles.text}
           onChangeText={displayName => this.setState({ displayName })}
           placeholder="Display Name"
           value={this.state.displayName}
@@ -61,17 +62,3 @@ export default class CreateProfile extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  text: {
-    width: 250,
-    padding: 100,
-    margin: 100
-  }
-});

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Alert, StyleSheet, Text, KeyboardAvoidingView, TextInput, Button } from 'react-native';
 import { auth } from '../../firebase';
+import commonStyles from '../../common-styles';
 
 export default class CreateAccount extends React.Component {
   static navigationOptions = {
@@ -26,10 +27,10 @@ export default class CreateAccount extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAvoidingView style={commonStyles.container}>
         <Text>Create Account</Text>
         <TextInput
-          style={styles.text}
+          style={commonStyles.text}
           onChangeText={email => this.setState({ email })}
           placeholder="email"
           value={this.state.email}
@@ -40,7 +41,7 @@ export default class CreateAccount extends React.Component {
         />
         <TextInput
           ref={input => { this.password = input; }}
-          style={styles.text}
+          style={commonStyles.text}
           secureTextEntry={true}
           onChangeText={password => this.setState({ password })}
           placeholder="password"
@@ -57,17 +58,3 @@ export default class CreateAccount extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  text: {
-    width: 250,
-    padding: 100,
-    margin: 100
-  }
-});

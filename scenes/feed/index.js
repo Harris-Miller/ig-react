@@ -1,21 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import commonStyles from '../../common-styles';
 
 export default class Feed extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
+      <View style={commonStyles.container}>
         <Text>Feed</Text>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
