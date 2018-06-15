@@ -7,13 +7,15 @@ import Loading from './scenes/loading';
 import Auth from './scenes/auth';
 import Login from './scenes/auth/login';
 import CreateAccount from './scenes/auth/create-account';
+import CreateProfile from './scenes/auth/create-profile';
 import Home from './scenes/home';
 import Feed from './scenes/feed';
 
 const AuthStack = createStackNavigator({
   Auth,
   Login,
-  CreateAccount
+  CreateAccount,
+  CreateProfile
 }, {
   initialRouteName: 'Auth'
 });

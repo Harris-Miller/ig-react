@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { Alert, StyleSheet, Text, KeyboardAvoidingView, TextInput, Button } from 'react-native';
 import { auth } from '../../firebase';
 
 export default class CreateAccount extends React.Component {
@@ -16,52 +16,44 @@ export default class CreateAccount extends React.Component {
     };
   }
 
-  email = () => (
-    <TextInput
-      style={styles.text}
-      keyboardType="email-address"
-      style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-      onChangeText={email => this.setState({ email })}
-      placeholder="email"
-      value={this.state.email}
-      autoCapitalize="none"
-      returnKeyType="next"
-    />
-  );
-
-  password = () => (
-    <TextInput
-      style={styles.text}
-      secureTextEntry={true}
-      style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-      onChangeText={password => this.setState({ password })}
-      placeholder="password"
-      value={this.state.password}
-      autoCapitalize="none"
-      returnKeyType="go"
-      onSubmitEditing={this.createAccount}
-    />
-  );
-
   createAccount = () => {
     auth.createUserWithEmailAndPassword(this.state.email, this.state.password).then(() => {
-      this.props.navigation.navigate('AppTabs');
+      this.props.navigation.navigate('CreateProfile');
     }).catch(error => {
-      alert(`${error.message}`);
+      Alert.alert(`${error.message}`);
     });
   };
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         <Text>Create Account</Text>
-        {this.email()}
-        {this.password()}
+        <TextInput
+          style={styles.text}
+          onChangeText={email => this.setState({ email })}
+          placeholder="email"
+          value={this.state.email}
+          autoCapitalize="none"
+          returnKeyType="next"
+          onSubmitEditing={() => this.password.focus()}
+          blurOnSubmit={false}
+        />
+        <TextInput
+          ref={input => { this.password = input; }}
+          style={styles.text}
+          secureTextEntry={true}
+          onChangeText={password => this.setState({ password })}
+          placeholder="password"
+          value={this.state.password}
+          autoCapitalize="none"
+          returnKeyType="go"
+          onSubmitEditing={this.createAccount}
+        />
         <Button
           title="Create Account"
           onPress={this.createAccount}
         />
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -74,7 +66,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   text: {
-    width: 75,
-    padding: 50
+    width: 250,
+    padding: 100,
+    margin: 100
   }
 });

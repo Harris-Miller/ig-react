@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
-import { auth } from '../../firebase';
+import { Alert, StyleSheet, Text, KeyboardAvoidingView, TextInput, Button } from 'react-native';
+import { auth, database } from '../../firebase';
 
 export default class Login extends React.Component {
   static navigationOptions = {
@@ -16,52 +16,51 @@ export default class Login extends React.Component {
     };
   }
 
-  email = () => (
-    <TextInput
-      style={styles.text}
-      keyboardType="email-address"
-      style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-      onChangeText={email => this.setState({ email })}
-      placeholder="email"
-      value={this.state.email}
-      autoCapitalize="none"
-      returnKeyType="next"
-    />
-  );
-
-  password = () => (
-    <TextInput
-      style={styles.text}
-      secureTextEntry={true}
-      style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-      onChangeText={password => this.setState({ password })}
-      placeholder="password"
-      value={this.state.password}
-      autoCapitalize="none"
-      returnKeyType="go"
-      onSubmitEditing={this.createAccount}
-    />
-  );
-
   createAccount = () => {
     auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(() => {
-      this.props.navigation.navigate('AppTabs');
+      const uid = auth.currentUser.uid;
+      database.ref(`/people/${uid}`).once('value').then(snapshot => {
+        if(snapshot.val()) {
+          this.props.navigation.navigate('AppTabs');
+        } else {
+          this.props.navigation.navigate('CreateProfile');
+        }
+      });
     }).catch(error => {
-      alert(`${error.message}`);
+      Alert.alert(`${error.message}`);
     });
   };
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Login</Text>
-        {this.email()}
-        {this.password()}
+      <KeyboardAvoidingView style={styles.container}>
+        <TextInput
+          style={styles.text}
+          keyboardType="email-address"
+          onChangeText={email => this.setState({ email })}
+          placeholder="email"
+          value={this.state.email}
+          autoCapitalize="none"
+          returnKeyType="next"
+          onSubmitEditing={() => this.password.focus()}
+          blurOnSubmit={false}
+        />
+        <TextInput
+          ref={input => { this.password = input; }}
+          style={styles.text}
+          secureTextEntry={true}
+          onChangeText={password => this.setState({ password })}
+          placeholder="password"
+          value={this.state.password}
+          autoCapitalize="none"
+          returnKeyType="go"
+          onSubmitEditing={this.createAccount}
+        />
         <Button
           title="Login"
           onPress={this.createAccount}
         />
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -74,7 +73,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   text: {
-    width: 75,
-    padding: 50
+    width: 250
   }
 });

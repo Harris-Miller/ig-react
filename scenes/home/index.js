@@ -1,8 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import { auth } from '../../firebase';
+import { Alert, StyleSheet, Text, View, Button } from 'react-native';
+import { auth, database } from '../../firebase';
 
 export default class App extends React.Component {
+  componentDidMount() {
+    const uid = auth.currentUser.uid;
+    console.log(uid);
+    database.ref(`/people/${uid}`).once('value').then(snapshot => console.log(snapshot.val()));
+  }
+
   render() {
     return (
       <View style={styles.container}>

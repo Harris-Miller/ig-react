@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, ActivityIndicator } from 'react-native';
-import { auth } from '../firebase';
+import { StyleSheet, View, ActivityIndicator, Text } from 'react-native';
+import { auth, database } from '../firebase';
 
 export default class Loading extends React.Component {
   constructor(props) {
@@ -8,7 +8,14 @@ export default class Loading extends React.Component {
 
     auth.onAuthStateChanged(user => {
       if (user) {
-        props.navigation.navigate('AppTabs')
+        const uid = auth.currentUser.uid;
+        database.ref(`/people/${uid}`).once('value').then(snapshot => {
+          if (snapshot.val()) {
+            props.navigation.navigate('AppTabs');
+          } else {
+            props.navigation.navigate('CreateProfile');
+          }
+        });
       } else {
         props.navigation.navigate('AuthStack')
       }
@@ -17,6 +24,7 @@ export default class Loading extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Text>Instaclone</Text>
         <ActivityIndicator size="large" />
       </View>
     );
