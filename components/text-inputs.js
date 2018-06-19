@@ -4,13 +4,17 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 // TODO: rename
 export class InputCommon extends React.Component {
+  focusOnInput() {
+    this.input.focus();
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.icon}><Icon name={this.props.iconName} size={30} color="#000" /></View>
         <View style={styles.input}>
           <TextInput
-            ref={input => { this.textInput = input; }}
+            ref={input => this.input = input}
             style={styles.text}
             placeholderTextColor="#000"
             autoCapitalize="none"
@@ -22,6 +26,7 @@ export class InputCommon extends React.Component {
             returnKeyType={this.props.returnKeyType}
             onSubmitEditing={this.props.onSubmitEditing}
             blurOnSubmit={this.props.blurOnSubmit}
+            secureTextEntry={this.props.secureTextEntry}
           />
         </View>
       </View>

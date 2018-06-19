@@ -18,7 +18,7 @@ export default class App extends React.Component {
     };
   }
 
-  createAccount = () => {
+  signin = () => {
     auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(() => {
       const uid = auth.currentUser.uid;
       database.ref(`/people/${uid}`).once('value').then(snapshot => {
@@ -35,7 +35,11 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="padding"
+        enabled
+      >
         <View style={{ margin: 30 }}>
           <MLogo />
         </View>
@@ -47,21 +51,24 @@ export default class App extends React.Component {
             onChangeText={email => this.setState({ email })}
             returnKeyType="next"
             blurOnSubmit={false}
+            keyboardType="email-address"
+            onSubmitEditing={() => this.password.focusOnInput()}
           />
           <InputCommon
+            ref={password => this.password = password}
             iconName={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'}
             placeholder="password"
             ref={input => { this.password = input; }}
             value={this.state.password}
             onChangeText={password => this.setState({ password })}
             returnKeyType="go"
-            onSubmitEditing={this.createAccount}
+            onSubmitEditing={this.signin}
           />
         </View>
         <Button
           color="#000"
           title="Login"
-          onPress={this.createAccount}
+          onPress={this.signin}
         />
         <Text style={styles.boldWhite}>Forgot your password?</Text>
         <Text>Don't have an account? <Text style={styles.boldWhite} onPress={() => this.props.navigation.navigate('CreateAccount')}>Sign up now</Text></Text>
