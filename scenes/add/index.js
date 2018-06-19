@@ -4,19 +4,19 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import commonStyles from '../../common-styles';
 
 const TabBarIcon = ({ focused, tintColor }) => (
-  <Icon name="person" size={30} color={tintColor} />
+  <Icon name="add-box" size={30} color={tintColor} />
 );
 
-export default class User extends React.Component {
+export default class Add extends React.Component {
   static navigationOptions = {
-    tabBarLabel: 'User',
+    tabBarLabel: 'Add',
     tabBarIcon: TabBarIcon
   };
 
   render() {
     return (
       <View style={commonStyles.container}>
-        <Text>User</Text>
+        <Text>Add</Text>
       </View>
     );
   }

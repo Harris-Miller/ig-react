@@ -1,9 +1,19 @@
 import React from 'react';
 import { Alert, StyleSheet, Text, View, Button } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { auth, database } from '../../firebase';
 import commonStyles from '../../common-styles';
 
-export default class App extends React.Component {
+const TabBarIcon = ({ focused, tintColor }) => (
+  <Icon name="home" size={30} color={tintColor} />
+);
+
+export default class Home extends React.Component {
+  static navigationOptions = {
+    tabBarLabel: 'Home',
+    tabBarIcon: TabBarIcon
+  };
+
   componentDidMount() {
     const uid = auth.currentUser.uid;
     console.log(uid);

@@ -7,7 +7,9 @@ import Loading from './scenes/loading';
 import Auth from './scenes/auth';
 import CreateAccount from './scenes/auth/create-account';
 import Home from './scenes/home';
-import Feed from './scenes/feed';
+import Search from './scenes/search';
+import Add from './scenes/add';
+import User from './scenes/user';
 
 const AuthStack = createStackNavigator({
   Auth,
@@ -18,7 +20,9 @@ const AuthStack = createStackNavigator({
 
 const AppTabs = createBottomTabNavigator({
   Home,
-  Feed
+  Search,
+  Add,
+  User
 });
 
 const TopLevelSwitch = createSwitchNavigator({

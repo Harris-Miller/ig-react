@@ -1,8 +1,9 @@
 import React from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, Button, Platform } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import { auth, database } from '../../firebase';
 import MLogo from '../../components/m-logo';
 import { InputCommon } from '../../components/text-inputs';
+import commonStyles from '../../common-styles';
 
 export default class App extends React.Component {
   static navigationOptions = {
@@ -36,7 +37,7 @@ export default class App extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView
-        style={styles.container}
+        style={commonStyles.container}
         behavior="padding"
         enabled
       >
@@ -45,7 +46,7 @@ export default class App extends React.Component {
         </View>
         <View>
           <InputCommon
-            iconName={Platform.OS === 'ios' ? 'ios-contact' : 'md-contact'}
+            iconName="account-circle"
             placeholder="email"
             value={this.state.email}
             onChangeText={email => this.setState({ email })}
@@ -56,7 +57,7 @@ export default class App extends React.Component {
           />
           <InputCommon
             ref={password => this.password = password}
-            iconName={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'}
+            iconName="lock"
             placeholder="password"
             ref={input => { this.password = input; }}
             value={this.state.password}

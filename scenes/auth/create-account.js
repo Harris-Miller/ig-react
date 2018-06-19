@@ -1,8 +1,8 @@
 import React from 'react';
-import { Alert, StyleSheet, Text, KeyboardAvoidingView, Button, Platform } from 'react-native';
+import { Alert, StyleSheet, Text, KeyboardAvoidingView, Button } from 'react-native';
 import { auth, database } from '../../firebase';
-import commonStyles from '../../common-styles';
 import { InputCommon } from '../../components/text-inputs';
+import commonStyles from '../../common-styles';
 
 export default class CreateAccount extends React.Component {
   static navigationOptions = {
@@ -52,12 +52,12 @@ export default class CreateAccount extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView
-        style={styles.container}
+        style={commonStyles.container}
         behavior="padding"
         enabled
       >
         <InputCommon
-          iconName={Platform.OS === 'ios' ? 'ios-contact' : 'md-contact'}
+          iconName="account-circle"
           placeholder="User Name*"
           value={this.state.displayName}
           onChangeText={displayName => this.setState({ displayName })}
@@ -67,7 +67,7 @@ export default class CreateAccount extends React.Component {
         />
         <InputCommon
           ref={email => this.email = email}
-          iconName={Platform.OS === 'ios' ? 'ios-mail' : 'md-mail'}
+          iconName="email"
           placeholder="Email*"
           value={this.state.email}
           onChangeText={email => this.setState({ email })}
@@ -78,7 +78,7 @@ export default class CreateAccount extends React.Component {
         />
         <InputCommon
           ref={password => this.password = password}
-          iconName={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'}
+          iconName="lock"
           placeholder="Password*"
           value={this.state.password}
           onChangeText={password => this.setState({ password })}
@@ -89,7 +89,7 @@ export default class CreateAccount extends React.Component {
         />
         <InputCommon
           ref={confirmPassword => this.confirmPassword = confirmPassword}
-          iconName={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'}
+          iconName="lock"
           placeholder="Confirm Password*"
           value={this.state.confirmPassword}
           onChangeText={confirmPassword => this.setState({ confirmPassword })}
@@ -109,12 +109,6 @@ export default class CreateAccount extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#9E9E9E',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   boldWhite: {
     color: '#FFF',
     fontWeight: 'bold'
