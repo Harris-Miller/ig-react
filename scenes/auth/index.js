@@ -1,37 +1,46 @@
-import React from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, Button } from 'react-native';
-import { auth, database } from '../../firebase';
+import React, { Component } from 'react';
+import { Alert, KeyboardAvoidingView, StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { connect } from 'react-redux';
 import MLogo from '../../components/m-logo';
 import { InputCommon } from '../../components/text-inputs';
 import commonStyles from '../../common-styles';
+import { login, setCurrentUser } from '../../actions/auth';
 
-export default class App extends React.Component {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#9E9E9E',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  boldWhite: {
+    color: '#FFF',
+    fontWeight: 'bold'
+  }
+});
+
+class Auth extends Component {
   static navigationOptions = {
     title: 'IG React'
   };
 
-  constructor() {
-    super();
-
-    this.state = {
-      email: '',
-      password: ''
-    };
-  }
+  state = {
+    email: '',
+    password: ''
+  };
 
   signin = () => {
-    auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(() => {
-      const uid = auth.currentUser.uid;
-      database.ref(`/people/${uid}`).once('value').then(snapshot => {
-        if(snapshot.val()) {
-          this.props.navigation.navigate('AppTabs');
-        } else {
-          this.props.navigation.navigate('CreateProfile');
-        }
+    const { dispatch, navigation } = this.props;
+    const { email, password } = this.state;
+
+    login({ email, password })
+      .then(token => {
+        dispatch(setCurrentUser(token));
+        navigation.navigate('AppTabs');
+      })
+      .catch(err => {
+        Alert.alert(`${err.message}`);
       });
-    }).catch(error => {
-      Alert.alert(`${error.message}`);
-    });
   };
 
   render() {
@@ -78,15 +87,4 @@ export default class App extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#9E9E9E',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  boldWhite: {
-    color: '#FFF',
-    fontWeight: 'bold'
-  }
-});
+export default connect()(Auth);

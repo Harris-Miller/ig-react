@@ -1,51 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Alert, StyleSheet, Text, KeyboardAvoidingView, Button } from 'react-native';
-import { auth, database } from '../../firebase';
+import { connect } from 'react-redux';
 import { InputCommon } from '../../components/text-inputs';
 import commonStyles from '../../common-styles';
+import { singupUser, login, setCurrentUser } from '../../actions/auth';
 
-export default class CreateAccount extends React.Component {
+const styles = StyleSheet.create({
+  boldWhite: {
+    color: '#FFF',
+    fontWeight: 'bold'
+  }
+});
+
+class CreateAccount extends Component {
   static navigationOptions = {
     title: 'Create Account'
   };
 
-  constructor() {
-    super();
-
-    this.state = {
-      displayName: '',
-      email: '',
-      password: '',
-      confirmPassword: ''
-    };
-  }
+  state = {
+    displayname: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  };
 
   createAccount = () => {
+    const { dispatch, navigation } = this.props;
+    const { displayname, email, password, confirmPassword } = this.state;
+
     if (this.state.password !== this.state.confirmPassword) {
       Alert.alert('Passwords do not match');
       return;
     }
 
-    auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => {
-        const uid = auth.currentUser.uid;
-        const displayName = this.state.displayName;
-        const searchDisplayName = displayName.toLowerCase();
-        const searchReverseDisplayName = searchDisplayName.split(' ').reverse().join(' ');
-
-        const _searchIndex = {
-          displayName: searchDisplayName,
-          reversedDisplayName: searchReverseDisplayName
-        };
-
-        return Promise.all([
-          auth.currentUser.updateProfile({ displayName: this.state.displayName }),
-          database.ref(`/people/${uid}`).set({ displayName, _searchIndex })
-        ]);
+    singupUser({ displayname, email, password })
+      .then(() => login({ email, password }))
+      .then(token => {
+        dispatch(setCurrentUser(token));
+        navigation.navigate('AppTabs');
       })
-      .then(() => this.props.navigation.navigate('AppTabs'))
-      .catch(error => {
-        Alert.alert(`${error.message}`);
+      .catch(err => {
+        Alert.alert(`${err.message}`);
       });
   };
 
@@ -58,9 +53,9 @@ export default class CreateAccount extends React.Component {
       >
         <InputCommon
           iconName="account-circle"
-          placeholder="User Name*"
-          value={this.state.displayName}
-          onChangeText={displayName => this.setState({ displayName })}
+          placeholder="Display Name*"
+          value={this.state.displayname}
+          onChangeText={displayname => this.setState({ displayname })}
           returnKeyType="next"
           blurOnSubmit={false}
           onSubmitEditing={() => this.email.focusOnInput()}
@@ -108,9 +103,4 @@ export default class CreateAccount extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  boldWhite: {
-    color: '#FFF',
-    fontWeight: 'bold'
-  }
-});
+export default connect()(CreateAccount);

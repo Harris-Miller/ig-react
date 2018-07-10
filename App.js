@@ -1,7 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator, createSwitchNavigator, createStackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
-import './firebase';
 import store from './store';
 import Loading from './scenes/loading';
 import Auth from './scenes/auth';
