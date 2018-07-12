@@ -14,8 +14,8 @@ const TabBarIcon = ({ focused, tintColor }) => (
 );
 
 HomeStack.navigationOptions = {
-    tabBarLabel: 'Home',
-    tabBarIcon: TabBarIcon
-  };
+  tabBarLabel: 'Home',
+  tabBarIcon: TabBarIcon
+};
 
 export default HomeStack;
