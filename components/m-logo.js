@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 export default () => (
   <View style={style.background}>
-    <Text style={style.lettering}>M</Text>
+    <Text style={style.lettering}>IG</Text>
   </View>
 );
 
@@ -11,12 +11,12 @@ const style = StyleSheet.create({
   background: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#D81B60',
-    height: 100,
-    width: 100
+    backgroundColor: '#111',
+    height: 110,
+    width: 110
   },
   lettering: {
-    color: '#FFFFFF',
+    color: '#FFF',
     fontSize: 90,
     fontWeight: '900',
     textAlign: 'center'
