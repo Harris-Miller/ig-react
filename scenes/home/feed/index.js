@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, ScrollView } from 'react-native';
+import { StyleSheet, Text, ScrollView, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Spacer from '../../../components/spacer';
 import Post from './post';
-import { resetFeed } from '../../../actions/feed';
+import { fetchFeedData, resetFeed } from '../../../actions/feed';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,18 +16,40 @@ const styles = StyleSheet.create({
 
 class Home extends Component {
   static navigationOptions = {
-    title: 'IG React'
+    title: 'IG React',
+  };
+
+  state = {
+    refreshing: false
   };
 
   componentWillMount() {
-    this.props.dispatch(resetFeed());
+    fetchFeedData().then(data => {
+      this.props.dispatch(resetFeed(data));
+    });
   }
+
+  onRefresh = () => {
+    this.setState({ refreshing: true }, async () => {
+      fetchFeedData().then(data => {
+        this.props.dispatch(resetFeed(data));
+        this.setState({ refreshing: false });
+      });
+    });
+  };
 
   render() {
     const { auth, feed } = this.props;
 
+    const refreshControl = (
+      <RefreshControl
+        refreshing={this.state.refreshing}
+        onRefresh={this.onRefresh}
+      />
+    );
+
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} refreshControl={refreshControl}>
         {feed.map(post => (
           <Post key={post.get('id')} data={post} />
         ))}
