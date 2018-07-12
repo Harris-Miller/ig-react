@@ -51,7 +51,7 @@ export class InputCommon extends React.Component {
       containerWidth: width - 30,
       inputWidth: width - (30 + 50 + 1 + 1)
     });
-  }
+  };
 
   focusOnInput() {
     this.input.focus();

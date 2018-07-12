@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import immutable from 'immutable';
 import { Dimensions, StyleSheet, Text, View, Image } from 'react-native';
+import moment from 'moment';
 
 const styles = StyleSheet.create({
   container: {
@@ -10,17 +11,20 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     flexDirection: 'row',
-    margin: 5
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 5,
+    marginRight: 5
   },
   profilePic: {
     borderRadius: 20,
     height: 40,
+    marginRight: 10,
     width: 40
   },
   poster: {
     fontSize: 16,
-    fontWeight: 'bold',
-    marginLeft: 10
+    fontWeight: 'bold'
   },
   textContainer: {
     padding: 10
@@ -28,43 +32,57 @@ const styles = StyleSheet.create({
 });
 
 class Post extends Component {
-  static propTypes = {
-
-  };
-
   static defaultProps = {
     data: new immutable.Map()
   };
 
   state = {
-    imageHeight: 0
+    imageHeight: 0,
+    imageWidth: 0,
+    displayHeight: 0
   };
 
   componentDidMount() {
     const { data } = this.props;
 
     if (!!data.get('fullUrl')) {
-      const { width: windowWidth } = Dimensions.get('window');
-
       Image.getSize(data.get('fullUrl'), (width, height) => {
-        const ratio = windowWidth / width;
-        this.setState({ imageHeight: height * ratio });
+        this.setState({ imageWidth: width, imageHeight: height}, () => {
+          this.resizeWidths({ window: Dimensions.get('window') });
+          Dimensions.addEventListener('change', this.resizeWidths);
+        });
       });
     }
   }
+
+  componentWillUnmount() {
+    Dimensions.removeEventListener('change', this.resizeWidths);
+  }
+
+  resizeWidths = ({ window }) => {
+    const { data } = this.props;
+    const { imageHeight, imageWidth } = this.state;
+    const { width: windowWidth } = window;
+
+    const ratio = windowWidth / imageWidth;
+    this.setState({ displayHeight: imageHeight * ratio });
+  };
 
   render() {
     const { data } = this.props;
     const { width: windowWidth } = Dimensions.get('window');
 
     return (
-      <View style={[styles.container, { width: windowWidth }]}>
+      <View style={[{ width: windowWidth }, styles.container]}>
         <View style={styles.header}>
           <Image source={{ uri: data.getIn(['user', 'profilePicUrl']) }} style={styles.profilePic} />
-          <Text style={styles.poster}>{data.getIn(['user', 'displayname'])}</Text>
+          <View>
+            <Text style={styles.poster}>{data.getIn(['user', 'displayname'])}</Text>
+            <Text>{moment(data.get('createdAt')).format("MMM D [at] h:mma")}</Text>
+          </View>
         </View>
         {!!data.get('fullUrl') && (
-          <Image source={{ uri: data.get('fullUrl')}} style={{ width: windowWidth, height: this.state.imageHeight }} />
+          <Image source={{ uri: data.get('fullUrl')}} style={{ width: windowWidth, height: this.state.displayHeight }} />
         )}
         <View style={styles.textContainer}>
           <Text>{data.get('text')}</Text>
