@@ -16,10 +16,16 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5
   },
-  profilePic: {
+  profilePicContainer: {
+    backgroundColor: '#9E9E9E',
     borderRadius: 20,
     height: 40,
     marginRight: 10,
+    width: 40
+  },
+  profilePic: {
+    borderRadius: 20,
+    height: 40,
     width: 40
   },
   poster: {
@@ -75,7 +81,9 @@ class Post extends Component {
     return (
       <View style={[{ width: windowWidth }, styles.container]}>
         <View style={styles.header}>
-          <Image source={{ uri: data.getIn(['user', 'profilePicUrl']) }} style={styles.profilePic} />
+          <View style={styles.profilePicContainer}>
+            <Image source={{ uri: data.getIn(['user', 'profilePicUrl']) }} style={styles.profilePic} />
+          </View>
           <View>
             <Text style={styles.poster}>{data.getIn(['user', 'displayname'])}</Text>
             <Text>{moment(data.get('createdAt')).format("MMM D [at] h:mma")}</Text>
