@@ -14,7 +14,10 @@ const styles = StyleSheet.create({
   }
 });
 
-class Home extends Component {
+const mapStateToProps = ({ auth, feed }) => ({ auth, feed });
+
+@connect(mapStateToProps)
+export default class Home extends Component {
   static navigationOptions = {
     title: 'IG React',
   };
@@ -57,7 +60,3 @@ class Home extends Component {
     );
   }
 }
-
-const mapStateToProps = ({ auth, feed }) => ({ auth, feed });
-
-export default connect(mapStateToProps)(Home);

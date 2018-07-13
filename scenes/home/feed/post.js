@@ -66,7 +66,6 @@ class Post extends Component {
   }
 
   resizeWidths = ({ window }) => {
-    const { data } = this.props;
     const { imageHeight, imageWidth } = this.state;
     const { width: windowWidth } = window;
 

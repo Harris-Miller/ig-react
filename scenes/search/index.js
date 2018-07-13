@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import commonStyles from '../../common-styles';
 
-class Search extends React.Component {
-  static navigationOptions = {
+class Search extends Component {
+  static navigationOptions = ({ navigation }) => ({
     title: 'Search'
-  };
+  });
 
   render() {
     return (
