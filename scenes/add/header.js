@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createStackNavigator } from 'react-navigation';
 import { StyleSheet, View, Text, Image, Dimensions } from 'react-native';
 
 const styles = StyleSheet.create({

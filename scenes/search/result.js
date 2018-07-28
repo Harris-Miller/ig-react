@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavigationActions, StackActions, withNavigation } from 'react-navigation';
+import { StackActions, withNavigation } from 'react-navigation';
 import immutable from 'immutable';
 import { Dimensions, StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
 import moment from 'moment';
@@ -44,7 +44,7 @@ class Result extends Component {
   };
 
   navigateToProfile = () => {
-    this.props.navigation.navigate('Profile');
+    this.props.navigation.push('Profile', { userId: this.props.user.get('id') });
   }
 
   render() {
@@ -65,8 +65,8 @@ class Result extends Component {
     );
 
     return (
-      <View style={[{ width: windowWidth }, styles.container]}>
-        <TouchableHighlight onPress={this.navigateToProfile}>
+      <View>
+        <TouchableHighlight style={[{ width: windowWidth }, styles.container]} onPress={this.navigateToProfile}>
           <View style={styles.header}>
             <View style={styles.profilePicContainer}>
               <Image source={{ url: user.get('profilePicUrl') }} style={styles.profilePic} />

@@ -8,7 +8,6 @@ import { InputCommon } from '../../components/text-inputs';
 import { clearSearch, fetchSearch, setSearch } from '../../actions/search';
 import commonStyles from '../../common-styles';
 import Result from './result';
-import Profile from '../profile';
 
 const styles = StyleSheet.create({
   container: {
@@ -77,8 +76,7 @@ class Search extends Component {
 }
 
 const SearchStack = createStackNavigator({
-  Search,
-  Profile
+  Search
 }, {
   initialRouteName: 'Search'
 });
