@@ -40,7 +40,11 @@ class Search extends Component {
   };
 
   search = () => {
-    fetchSearch(this.state.searchText).then(data => this.props.dispatch(setSearch(data)));
+    if (this.state.searchText) {
+      fetchSearch(this.state.searchText).then(data => this.props.dispatch(setSearch(data)));
+    } else {
+      this.props.dispatch(clearSearch());
+    }
   };
 
   searchDebounced = debounce(this.search, 400);
