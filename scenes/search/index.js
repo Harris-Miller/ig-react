@@ -7,6 +7,7 @@ import { debounce } from 'lodash-es';
 import { InputCommon } from '../../components/text-inputs';
 import { clearSearch, fetchSearch, setSearch } from '../../actions/search';
 import commonStyles from '../../common-styles';
+import Result from './result';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +47,7 @@ class Search extends Component {
 
   render() {
     const { search } = this.props;
-    
+    const { searchText } = this.state;
     const test = ['foo', 'bar', 'biz', 'baz'];
 
     return (
@@ -55,15 +56,13 @@ class Search extends Component {
           <InputCommon
             iconName="search"
             placeholder="Search..."
-            value={this.state.searchText}
+            value={searchText}
             onChangeText={this.onSearchTextChange}
             returnKeyType="done"
           />
         </View>
-        {search.map(result => (
-          <View key={result.get('id')}>
-            <Text>{result.get('displayname')}</Text>
-          </View>
+        {search.map(user => (
+          <Result key={user.get('id')} user={user} searchedValue={searchText} />
         ))}
       </ScrollView>
     );
