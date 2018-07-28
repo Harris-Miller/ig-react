@@ -8,6 +8,7 @@ import { InputCommon } from '../../components/text-inputs';
 import { clearSearch, fetchSearch, setSearch } from '../../actions/search';
 import commonStyles from '../../common-styles';
 import Result from './result';
+import Profile from '../profile';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,6 +30,10 @@ class Search extends Component {
     searchText: ''
   };
 
+  // TODO: keep?
+  // maybe set a timer to clear after so long?
+  // this way if they go back quickly there last results are still there
+  // but it clears if a new one is
   componentDidMount() {
     this.props.dispatch(clearSearch());
   }
@@ -72,7 +77,8 @@ class Search extends Component {
 }
 
 const SearchStack = createStackNavigator({
-  Search
+  Search,
+  Profile
 }, {
   initialRouteName: 'Search'
 });

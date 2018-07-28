@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
 import commonStyles from '../../common-styles';
 import { removeCurrentUser } from '../../actions/auth';
 

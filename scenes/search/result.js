@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { NavigationActions, StackActions, withNavigation } from 'react-navigation';
 import immutable from 'immutable';
-import { Dimensions, StyleSheet, Text, View, Image } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
 import moment from 'moment';
 
 const styles = StyleSheet.create({
@@ -36,10 +37,15 @@ const styles = StyleSheet.create({
   }
 });
 
+@withNavigation
 class Result extends Component {
   static defaultProps = {
     user: new immutable.Map()
   };
+
+  navigateToProfile = () => {
+    this.props.navigation.navigate('Profile');
+  }
 
   render() {
     const { user, searchedValue } = this.props;
@@ -50,20 +56,24 @@ class Result extends Component {
 
     const highlightedDisplayName = (
       <View>
-        <Text>{displayName.substring(0, searchedStartIndex)}
-        <Text style={{ fontWeight: 'bold' }}>{displayName.substring(searchedStartIndex, searchedStartIndex + searchedValue.length)}</Text>
-        {displayName.substring(searchedStartIndex + searchedValue.length, displayName.length)}</Text>
+        <Text>
+          {displayName.substring(0, searchedStartIndex)}
+          <Text style={{ fontWeight: 'bold' }}>{displayName.substring(searchedStartIndex, searchedStartIndex + searchedValue.length)}</Text>
+          {displayName.substring(searchedStartIndex + searchedValue.length, displayName.length)}
+        </Text>
       </View>
     );
 
     return (
       <View style={[{ width: windowWidth }, styles.container]}>
-        <View style={styles.header}>
-          <View style={styles.profilePicContainer}>
-            <Image source={{ url: user.get('profilePicUrl') }} style={styles.profilePic} />>
+        <TouchableHighlight onPress={this.navigateToProfile}>
+          <View style={styles.header}>
+            <View style={styles.profilePicContainer}>
+              <Image source={{ url: user.get('profilePicUrl') }} style={styles.profilePic} />
+            </View>
+            {highlightedDisplayName}
           </View>
-          {highlightedDisplayName}
-        </View>
+        </TouchableHighlight>
       </View>
     );
   }
