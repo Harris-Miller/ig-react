@@ -19,8 +19,8 @@ const mapStateToProps = ({ auth, feed }) => ({ auth, feed });
 @connect(mapStateToProps)
 export default class Home extends Component {
   static navigationOptions = {
-    title: 'IG React',
-  };
+    title: 'IG React'
+  }
 
   state = {
     refreshing: false

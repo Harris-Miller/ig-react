@@ -23,6 +23,7 @@
     "expo": "^27.0.1",
     "immutable": "^4.0.0-rc.9",
     "jwt-decode": "^2.2.0",
+    "lodash-es": "^4.17.10",
     "moment": "^2.22.2",
     "react": "16.3.1",
     "react-immutable-proptypes": "^2.1.0",
