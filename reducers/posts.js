@@ -1,0 +1,11 @@
+import immutable from 'immutable';
+import { ADD_POSTS } from '../actions/posts';
+
+export default (state = new immutable.Map(), action) => {
+  switch (action.type) {
+    case ADD_POSTS:
+      return state.set(action.userId, (state.get(action.userId) || new immutable.List()).concat(immutable.fromJS(action.data)));
+    default:
+      return state;
+  }
+}

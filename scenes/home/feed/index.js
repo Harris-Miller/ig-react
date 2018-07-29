@@ -3,7 +3,7 @@ import { StyleSheet, Text, ScrollView, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Spacer from '../../../components/spacer';
-import Post from './post';
+import Post from '../../../components/post';
 import { fetchFeedData, resetFeed } from '../../../actions/feed';
 
 const styles = StyleSheet.create({
