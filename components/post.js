@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import immutable from 'immutable';
 import moment from 'moment';
 import { fetchProfile, addProfile } from '../actions/profiles';
+import withWindowWidth from '../mixins/with-window-width';
 
 const styles = StyleSheet.create({
   container: {
@@ -40,6 +41,7 @@ const styles = StyleSheet.create({
   }
 });
 
+@withWindowWidth
 @withNavigation
 @connect()
 export default class Post extends Component {
@@ -89,7 +91,8 @@ export default class Post extends Component {
 
   render() {
     const { post } = this.props;
-    const { width: windowWidth } = Dimensions.get('window');
+    // const { width: windowWidth } = Dimensions.get('window');
+    const { windowWidth } = this.state;
 
     return (
       <View style={[{ width: windowWidth }, styles.container]}>
