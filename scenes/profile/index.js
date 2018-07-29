@@ -5,39 +5,32 @@ import { Text, View } from 'react-native';
 import { withMappedNavigationProps } from 'react-navigation-props-mapper'
 import immutable from 'immutable';
 import commonStyles from '../../common-styles';
-import { fetchProfile, addProfile } from '../../actions/profiles';
 import { fetchPosts, addPosts } from '../../actions/posts';
 import Loading from '../loading';
-import { isImmutable } from '../../node_modules/immutable';
+
+const TabBarIcon = ({ focused, tintColor }) => (
+  <Icon name="search" size={30} color={tintColor} />
+);
 
 const mapStateToProps = ({ profiles, posts }) => ({ profiles, posts });
 
 @connect(mapStateToProps)
 @withMappedNavigationProps()
-class Profile extends Component {
+export default class Profile extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Profile'
+    title: navigation.getParam('profile').get('displayname')
   });
 
   componentDidMount() {
-    const { profiles, userId, dispatch } = this.props;
-
-    if (userId && !profiles.find(user => user.get('id') === userId)) {
-      Promise.all([
-        fetchProfile(userId).then(profile => dispatch(addProfile(profile))),
-        fetchPosts(userId).then(posts => dispatch(addPosts(userId, posts)))
-      ]);
-    }
+    const { profile, dispatch } = this.props;
+    const userId = profile.get('id');
+    fetchPosts(userId).then(posts => dispatch(addPosts(userId, posts)));
   }
 
   render() {
-    const { userId, profiles, posts } = this.props;
-    const profile = profiles.find(user => user.get('id') === userId);
+    const { profile, posts } = this.props;
+    const userId = profile.get('id');
     const usersPosts = posts.get(userId) || new immutable.List();
-
-    if (!profile) {
-      return <Loading />;
-    }
 
     return (
       <View style={commonStyles.container}>
@@ -52,13 +45,3 @@ class Profile extends Component {
     );
   }
 }
-
-const ProfileStack = createStackNavigator({
-  Profile
-});
-
-const TabBarIcon = ({ focused, tintColor }) => (
-  <Icon name="search" size={30} color={tintColor} />
-);
-
-export default ProfileStack;

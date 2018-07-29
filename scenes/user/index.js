@@ -9,7 +9,8 @@ const TabBarIcon = ({ focused, tintColor }) => (
   <Icon name="person" size={30} color={tintColor} />
 );
 
-class User extends React.Component {
+@connect()
+export default class User extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'User',
     tabBarIcon: TabBarIcon
@@ -35,5 +36,3 @@ class User extends React.Component {
     );
   }
 }
-
-export default connect()(User);

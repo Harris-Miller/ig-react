@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
   }
 });
 
+@connect()
 class CreateAccount extends Component {
   static navigationOptions = {
     title: 'Create Account'
@@ -50,7 +51,7 @@ class CreateAccount extends Component {
       .then(() => login({ email, password }))
       .then(token => {
         dispatch(setCurrentUser(token));
-        navigation.navigate('AppTabs');
+        navigation.navigate('MainStack');
       })
       .catch(err => {
         Alert.alert(`${err.message}`);
@@ -117,4 +118,4 @@ class CreateAccount extends Component {
   }
 }
 
-export default connect()(CreateAccount);
+export default CreateAccount;

@@ -25,11 +25,19 @@ const AppTabs = createBottomTabNavigator({
   User
 });
 
+AppTabs.navigationOptions = () => ({
+  title: 'IG React'
+});
+
+const MainStack = createStackNavigator({
+  AppTabs,
+  Profile
+});
+
 const TopLevelSwitch = createSwitchNavigator({
   AutoLogin,
   AuthStack,
-  AppTabs,
-  Profile
+  MainStack
 }, {
   initialRouteName: 'AutoLogin'
 });

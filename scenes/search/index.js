@@ -17,12 +17,18 @@ const styles = StyleSheet.create({
   }
 });
 
+const TabBarIcon = ({ focused, tintColor }) => (
+  <Icon name="search" size={30} color={tintColor} />
+);
+
 const mapStateToProps = ({ auth, search }) => ({ auth, search });
 
 @connect(mapStateToProps)
-class Search extends Component {
+export default class Search extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Search'
+    title: 'Search',
+    tabBarLabel: 'Search',
+    tabBarIcon: TabBarIcon
   });
 
   state = {
@@ -74,20 +80,3 @@ class Search extends Component {
     );
   }
 }
-
-const SearchStack = createStackNavigator({
-  Search
-}, {
-  initialRouteName: 'Search'
-});
-
-const TabBarIcon = ({ focused, tintColor }) => (
-  <Icon name="search" size={30} color={tintColor} />
-);
-
-SearchStack.navigationOptions = {
-  tabBarLabel: 'Search',
-  tabBarIcon: TabBarIcon
-};
-
-export default SearchStack;

@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
   }
 });
 
+@connect()
 class Auth extends Component {
   static navigationOptions = {
     title: 'IG React'
@@ -43,7 +44,7 @@ class Auth extends Component {
     login({ email, password })
       .then(token => {
         dispatch(setCurrentUser(token));
-        navigation.navigate('AppTabs');
+        navigation.navigate('MainStack');
       })
       .catch(err => {
         Alert.alert(`${err.message}`);
@@ -51,15 +52,16 @@ class Auth extends Component {
   };
 
   render() {
+    const { navigation } = this.props;
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} centerContent>
         <View style={{ marginBottom: 30 }}>
           <MLogo />
         </View>
         <KeyboardAvoidingView
-            behavior="padding"
-            enabled
-          >
+          behavior="padding"
+          enabled
+        >
           <View>
             <InputCommon
               iconName="account-circle"
@@ -90,10 +92,10 @@ class Auth extends Component {
           />
         </KeyboardAvoidingView>
         <Text style={styles.boldWhite}>Forgot your password?</Text>
-        <Text>Don't have an account? <Text style={styles.boldWhite} onPress={() => this.props.navigation.navigate('CreateAccount')}>Sign up now</Text></Text>
+        <Text>Don't have an account? <Text style={styles.boldWhite} onPress={() => navigation.push('CreateAccount')}>Sign up now</Text></Text>
       </ScrollView>
     );
   }
 }
 
-export default connect()(Auth);
+export default Auth;

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
 import { Dimensions, StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
+import { connect } from 'react-redux';
 import immutable from 'immutable';
 import moment from 'moment';
+import { fetchProfile, addProfile } from '../actions/profiles';
 
 const styles = StyleSheet.create({
   container: {
@@ -39,7 +41,8 @@ const styles = StyleSheet.create({
 });
 
 @withNavigation
-class Post extends Component {
+@connect()
+export default class Post extends Component {
   static defaultProps = {
     data: new immutable.Map()
   };
@@ -76,7 +79,12 @@ class Post extends Component {
   };
 
   navigateToProfile = () => {
-    this.props.navigation.push('Profile', { userId: this.props.data.getIn(['user', 'id']) });
+    const { data, navigation, dispatch } = this.props;
+    const userId = this.props.data.getIn(['user', 'id']);
+
+    fetchProfile(userId).then(profile => {
+      navigation.push('Profile', { profile: immutable.fromJS(profile) });
+    });
   }
 
   render() {
@@ -106,5 +114,3 @@ class Post extends Component {
     );
   }
 }
-
-export default Post;

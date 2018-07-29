@@ -11,7 +11,7 @@ export default class AutoLogin extends Component {
     AsyncStorage.getItem('jwtToken').then(jwtToken => {
       if (jwtToken) {
         store.dispatch(setCurrentUser(jwtToken));
-        props.navigation.navigate('AppTabs');
+        props.navigation.navigate('MainStack');
       } else {
         props.navigation.navigate('AuthStack');
       }

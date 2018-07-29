@@ -7,9 +7,15 @@ import Header from './header';
 import MediaInput from './media-input';
 import TextInput from './text-input';
 
-class Add extends Component {
+const TabBarIcon = ({ focused, tintColor }) => (
+  <Icon name="add-box" size={30} color={tintColor} />
+);
+
+export default class Add extends Component {
   static navigationOptions = {
-    title: 'Add'
+    title: 'Add',
+    tabBarLabel: 'Add',
+    tabBarIcon: TabBarIcon
   };
 
   state = {
@@ -43,20 +49,3 @@ class Add extends Component {
     );
   }
 }
-
-const AddStack = createStackNavigator({
-  Add
-}, {
-  initialRouteName: 'Add'
-});
-
-const TabBarIcon = ({ focused, tintColor }) => (
-  <Icon name="add-box" size={30} color={tintColor} />
-);
-
-AddStack.navigationOptions = {
-  tabBarLabel: 'Add',
-  tabBarIcon: TabBarIcon
-};
-
-export default AddStack;
