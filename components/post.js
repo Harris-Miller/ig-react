@@ -90,9 +90,7 @@ export default class Post extends Component {
   }
 
   render() {
-    const { post } = this.props;
-    // const { width: windowWidth } = Dimensions.get('window');
-    const { windowWidth } = this.state;
+    const { post, windowWidth } = this.props;
 
     return (
       <View style={[{ width: windowWidth }, styles.container]}>

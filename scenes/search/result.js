@@ -75,7 +75,7 @@ class Result extends Component {
         <TouchableHighlight style={[{ width: windowWidth }, styles.container]} onPress={this.navigateToProfile}>
           <View style={styles.header}>
             <View style={styles.profilePicContainer}>
-              <Image source={{ url: user.get('profilePicUrl') }} style={styles.profilePic} />
+              <Image source={{ uri: user.get('profilePicUrl') }} style={styles.profilePic} />
             </View>
             {highlightedDisplayName}
           </View>
