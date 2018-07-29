@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StackActions, withNavigation } from 'react-navigation';
-import immutable from 'immutable';
+import { withNavigation } from 'react-navigation';
 import { Dimensions, StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
+import immutable from 'immutable';
 import moment from 'moment';
 
 const styles = StyleSheet.create({

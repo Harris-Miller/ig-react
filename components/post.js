@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { withNavigation } from 'react-navigation';
+import { Dimensions, StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
 import immutable from 'immutable';
-import { Dimensions, StyleSheet, Text, View, Image } from 'react-native';
 import moment from 'moment';
 
 const styles = StyleSheet.create({
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
   }
 });
 
+@withNavigation
 class Post extends Component {
   static defaultProps = {
     data: new immutable.Map()
@@ -73,21 +75,27 @@ class Post extends Component {
     this.setState({ displayHeight: imageHeight * ratio });
   };
 
+  navigateToProfile = () => {
+    this.props.navigation.push('Profile', { userId: this.props.data.getIn(['user', 'id']) });
+  }
+
   render() {
     const { data } = this.props;
     const { width: windowWidth } = Dimensions.get('window');
 
     return (
       <View style={[{ width: windowWidth }, styles.container]}>
-        <View style={styles.header}>
-          <View style={styles.profilePicContainer}>
-            <Image source={{ uri: data.getIn(['user', 'profilePicUrl']) }} style={styles.profilePic} />
+        <TouchableHighlight onPress={this.navigateToProfile}>
+          <View style={styles.header}>
+            <View style={styles.profilePicContainer}>
+              <Image source={{ uri: data.getIn(['user', 'profilePicUrl']) }} style={styles.profilePic} />
+            </View>
+            <View>
+              <Text style={styles.poster}>{data.getIn(['user', 'displayname'])}</Text>
+              <Text>{moment(data.get('createdAt')).format("MMM D [at] h:mma")}</Text>
+            </View>
           </View>
-          <View>
-            <Text style={styles.poster}>{data.getIn(['user', 'displayname'])}</Text>
-            <Text>{moment(data.get('createdAt')).format("MMM D [at] h:mma")}</Text>
-          </View>
-        </View>
+        </TouchableHighlight>
         {!!data.get('fullUrl') && (
           <Image source={{ uri: data.get('fullUrl')}} style={{ width: windowWidth, height: this.state.displayHeight }} />
         )}
