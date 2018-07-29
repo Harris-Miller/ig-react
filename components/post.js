@@ -54,10 +54,10 @@ export default class Post extends Component {
   };
 
   componentDidMount() {
-    const { data } = this.props;
+    const { post } = this.props;
 
-    if (!!data.get('fullUrl')) {
-      Image.getSize(data.get('fullUrl'), (width, height) => {
+    if (!!post.get('fullUrl')) {
+      Image.getSize(post.get('fullUrl'), (width, height) => {
         this.setState({ imageWidth: width, imageHeight: height}, () => {
           this.resizeWidths({ window: Dimensions.get('window') });
           Dimensions.addEventListener('change', this.resizeWidths);
@@ -79,8 +79,8 @@ export default class Post extends Component {
   };
 
   navigateToProfile = () => {
-    const { data, navigation, dispatch } = this.props;
-    const userId = data.getIn(['user', 'id']);
+    const { post, navigation, dispatch } = this.props;
+    const userId = post.getIn(['user', 'id']);
 
     fetchProfile(userId).then(profile => {
       navigation.push('Profile', { profile: immutable.fromJS(profile) });
@@ -88,7 +88,7 @@ export default class Post extends Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { post } = this.props;
     const { width: windowWidth } = Dimensions.get('window');
 
     return (
@@ -96,19 +96,19 @@ export default class Post extends Component {
         <TouchableHighlight onPress={this.navigateToProfile}>
           <View style={styles.header}>
             <View style={styles.profilePicContainer}>
-              <Image source={{ uri: data.getIn(['user', 'profilePicUrl']) }} style={styles.profilePic} />
+              <Image source={{ uri: post.getIn(['user', 'profilePicUrl']) }} style={styles.profilePic} />
             </View>
             <View>
-              <Text style={styles.poster}>{data.getIn(['user', 'displayname'])}</Text>
-              <Text>{moment(data.get('createdAt')).format("MMM D [at] h:mma")}</Text>
+              <Text style={styles.poster}>{post.getIn(['user', 'displayname'])}</Text>
+              <Text>{moment(post.get('createdAt')).format("MMM D [at] h:mma")}</Text>
             </View>
           </View>
         </TouchableHighlight>
-        {!!data.get('fullUrl') && (
-          <Image source={{ uri: data.get('fullUrl')}} style={{ width: windowWidth, height: this.state.displayHeight }} />
+        {!!post.get('fullUrl') && (
+          <Image source={{ uri: post.get('fullUrl')}} style={{ width: windowWidth, height: this.state.displayHeight }} />
         )}
         <View style={styles.textContainer}>
-          <Text>{data.get('text')}</Text>
+          <Text>{post.get('text')}</Text>
         </View>
       </View>
     );

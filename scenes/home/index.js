@@ -60,7 +60,7 @@ export default class Home extends Component {
     return (
       <ScrollView style={styles.container} refreshControl={refreshControl}>
         {feed.map(post => (
-          <Post key={post.get('id')} data={post} />
+          <Post key={post.get('id')} post={post} />
         ))}
       </ScrollView>
     );
