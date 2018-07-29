@@ -80,7 +80,7 @@ export default class Post extends Component {
 
   navigateToProfile = () => {
     const { data, navigation, dispatch } = this.props;
-    const userId = this.props.data.getIn(['user', 'id']);
+    const userId = data.getIn(['user', 'id']);
 
     fetchProfile(userId).then(profile => {
       navigation.push('Profile', { profile: immutable.fromJS(profile) });

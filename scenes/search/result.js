@@ -3,6 +3,7 @@ import { withNavigation } from 'react-navigation';
 import { Dimensions, StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
 import immutable from 'immutable';
 import moment from 'moment';
+import { fetchProfile, addProfile } from '../../actions/profiles';
 
 const styles = StyleSheet.create({
   container: {
@@ -44,7 +45,12 @@ class Result extends Component {
   };
 
   navigateToProfile = () => {
-    this.props.navigation.push('Profile', { userId: this.props.user.get('id') });
+    const { user, navigation, dispatch } = this.props;
+    const userId = user.get('id');
+
+    fetchProfile(userId).then(profile => {
+      navigation.push('Profile', { profile: immutable.fromJS(profile) });
+    });
   }
 
   render() {
